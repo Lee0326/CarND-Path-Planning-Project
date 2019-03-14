@@ -7,39 +7,39 @@ The transition part was done by myself. The pseudocode is shown below:
 
 
     def transition_function(predictions, current_fsm_state, current_pose, cost_functions, weights):
-    # only consider states which can be reached from current FSM state.
-    possible_successor_states = successor_states(current_fsm_state)
+        # only consider states which can be reached from current FSM state.
+        possible_successor_states = successor_states(current_fsm_state)
 
-    # keep track of the total cost of each state.
-    costs = []
-    for state in possible_successor_states:
-        # generate a rough idea of what trajectory we would
-        # follow IF we chose this state.
-        trajectory_for_state = generate_trajectory(state, current_pose, predictions)
+        # keep track of the total cost of each state.
+        costs = []
+        for state in possible_successor_states:
+            # generate a rough idea of what trajectory we would
+            # follow IF we chose this state.
+            trajectory_for_state = generate_trajectory(state, current_pose, predictions)
 
-        # calculate the "cost" associated with that trajectory.
-        cost_for_state = 0
-        for i in range(len(cost_functions)) :
-            # apply each cost function to the generated trajectory
-            cost_function = cost_functions[i]
-            cost_for_cost_function = cost_function(trajectory_for_state, predictions)
+            # calculate the "cost" associated with that trajectory.
+            cost_for_state = 0
+            for i in range(len(cost_functions)) :
+                # apply each cost function to the generated trajectory
+                cost_function = cost_functions[i]
+                cost_for_cost_function = cost_function(trajectory_for_state, predictions)
 
-            # multiply the cost by the associated weight
-            weight = weights[i]
-            cost_for_state += weight * cost_for_cost_function
-         costs.append({'state' : state, 'cost' : cost_for_state})
+                # multiply the cost by the associated weight
+                weight = weights[i]
+                cost_for_state += weight * cost_for_cost_function
+             costs.append({'state' : state, 'cost' : cost_for_state})
 
-    # Find the minimum cost state.
-    best_next_state = None
-    min_cost = 9999999
-    for i in range(len(possible_successor_states)):
-        state = possible_successor_states[i]
-        cost  = costs[i]
-        if cost < min_cost:
-            min_cost = cost
-            best_next_state = state 
+        # Find the minimum cost state.
+        best_next_state = None
+        min_cost = 9999999
+        for i in range(len(possible_successor_states)):
+            state = possible_successor_states[i]
+            cost  = costs[i]
+            if cost < min_cost:
+                min_cost = cost
+                best_next_state = state 
 
-    return best_next_state
+        return best_next_state
 
 Following this process, I wrote four functions in the helper.h file: successor_states, generate_trajactory(), inefficient_cost() and goal_distance_cost. The successor_states function returnS all the possible states given the current state and current lane (Ln 62-Ln 94). Given the pose, state and sensor fusion data, the generate_trajactory() function returns the corresponding kinematic parameters for calculating the cost: First, all the sensor fusion data was iterated, and under each cluster of predictions data, the corresponding kinematic variable of every state were make certain according to all the constrains (Ln 97-Ln 197). Two cost functions were defined. The inefficient_cost would make the vehicle drive in the fastest possible lane (Ln 201-Ln 204) and the goal_distance_cost function would make the car change to the lane with more gap (Ln 208-Ln 212). 
 
