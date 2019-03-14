@@ -6,11 +6,12 @@ Self-Driving Car Engineer Nanodegree Program
 The transition part was done by myself. The pseudocode is shown below:
 
 
-def transition_function(predictions, current_fsm_state, current_pose, cost_functions, weights):
+    def transition_function(predictions, current_fsm_state, current_pose, cost_functions, weights):
     # only consider states which can be reached from current FSM state.
     possible_successor_states = successor_states(current_fsm_state)
+
     # keep track of the total cost of each state.
-    costs = [];
+    costs = []
     for state in possible_successor_states:
         # generate a rough idea of what trajectory we would
         # follow IF we chose this state.
