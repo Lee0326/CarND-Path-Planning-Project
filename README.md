@@ -3,7 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 #### Write-up of the path-planner design
 
-the transition part was done by me. the pseudocode is shown below:
+The transition part was done by myself. The pseudocode is shown below:
 
 def transition_function(predictions, current_fsm_state, current_pose, cost_functions, weights):
     # only consider states which can be reached from current FSM state.
@@ -40,7 +40,7 @@ def transition_function(predictions, current_fsm_state, current_pose, cost_funct
 
     return best_next_state
 
-Following this process, I wrote four functions in the helper.h file: successor_states, generate_trajactory(), inefficient_cost() and goal_distance_cost. The successor_states function return all the possible states given the current state and current lane (Ln 62-Ln 94). Given the pose, state and sensor fusion data, the generate_trajactory() function returns the corresponding kinematic parameters for calculating the cost. First, all the sensor fusion data was iterated, and under each cluster of predictions data, the corresponding kinematic variable of each state were make certain according to all the constrains (Ln 97-Ln 197). Two cost functions were defined. The inefficient_cost would make the vehicle drive in the fastest possible lane (Ln 201-Ln 204) and the goal_distance_cost function would make the car change to the lane with more gap (Ln 208-Ln 212). 
+Following this process, I wrote four functions in the helper.h file: successor_states, generate_trajactory(), inefficient_cost() and goal_distance_cost. The successor_states function returnS all the possible states given the current state and current lane (Ln 62-Ln 94). Given the pose, state and sensor fusion data, the generate_trajactory() function returns the corresponding kinematic parameters for calculating the cost: First, all the sensor fusion data was iterated, and under each cluster of predictions data, the corresponding kinematic variable of every state were make certain according to all the constrains (Ln 97-Ln 197). Two cost functions were defined. The inefficient_cost would make the vehicle drive in the fastest possible lane (Ln 201-Ln 204) and the goal_distance_cost function would make the car change to the lane with more gap (Ln 208-Ln 212). 
 
 In the main.cpp, there are two main parts: the first one is transition part (Ln113-Ln176)and the second is the generating trajectory part (Ln 182-Ln 302). The first part calculate the best state and the corresponding speed and lane command, which would be passed to the second part to execute. Firsty, all the possible successor states were obtained by the successor_states function. Then they are iterated for the corresponding kinematic parameters. With these parameters, the minimum cost can be found, then the lane change command and the speed command can be passed to the following part. 
 
