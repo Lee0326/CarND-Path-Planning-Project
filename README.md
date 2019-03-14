@@ -10,7 +10,7 @@ def transition_function(predictions, current_fsm_state, current_pose, cost_funct
     # only consider states which can be reached from current FSM state.
     possible_successor_states = successor_states(current_fsm_state)
     # keep track of the total cost of each state.
-    costs = []
+    costs = [];
     for state in possible_successor_states:
         # generate a rough idea of what trajectory we would
         # follow IF we chose this state.
